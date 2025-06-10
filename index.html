@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal website</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div id="particles-js" class="particles-background"></div>
+    <div class="cursor-trail"></div>
+
+    <div id="container" class="space-container">
+        <div class="space-content">
+            <div id="logo" class="space-logo">
+                <h1 class="logo-text">Amina</h1>
+                <p class="logo-subtext">Digital Experience</p>
+            </div>
+            <button id="start-btn" class="start-btn">
+                Begin Journey <i class="fas fa-rocket"></i>
+            </button>
+        </div>
+        <div id="loading">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Initializing Cosmic Experience</p>
+        </div>
+    </div>
+
+    <header id="header" class="header">
+        <div class="nav-container">
+            <div class="logo">Amina</div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#" data-section="home" class="active">Home</a></li>
+                <li class="nav-item"><a href="#" data-section="about">About</a></li>
+                <li class="nav-item"><a href="#" data-section="skills">Skills</a></li>
+                <li class="nav-item"><a href="#" data-section="work">Work</a></li>
+                <li class="nav-item"><a href="#" data-section="volunteering">Volunteering</a></li>
+                <li class="nav-item"><a href="#" data-section="journey">Journey</a></li>
+                <li class="nav-item"><a href="#" data-section="connect">Connect</a></li>
+            </ul>
+            <button id="back-btn" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Space
+            </button>
+        </div>
+    </header>
+
+    <main id="mainContent" class="main-content">
+        <section id="home" class="section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text fade-in">
+                        <h1 class="hero-title">Amina Kazanbasova</h1>
+                        <p class="hero-subtitle">Creating immersive digital experiences at the intersection of technology and design</p>
+                    </div>
+                    <div class="hero-image-container fade-in">
+                        <img src="a2.png" alt="Amina" class="hero-image" data-tilt>
+                    </div>
+                </div>
+                <div class="marquee-container">
+                    <div class="marquee-track left">
+                        <section class="marquee-container">
+                    <div class="marquee-track left"></div>
+                    <div class="marquee-track right"></div>
+                        <span class="marquee-text">Storytelling through code</span>
+                        <span class="marquee-text">Innovation with purpose</span>
+                        <span class="marquee-text">Design that speaks</span>
+                    </div>
+                    <div class="marquee-track right">
+                        <span class="marquee-text">Digital experiences</span>
+                        <span class="marquee-text">Future interfaces</span>
+                        <span class="marquee-text">Human-centered tech</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title"><span>About</span></h2>
+                <div class="about-content">
+                    <div class="about-text fade-in">
+                        <p class="about-intro">Hi, I'm Amina, a digital experience designer and developer creating at the intersection of technology and human interaction.</p>
+                        <p>My journey in tech began with a fascination for how digital interfaces shape our experiences. Today, I specialize in crafting immersive digital web applications that blend technical precision with thoughtful design. My work focuses on accessibility, user engagement, and innovative interaction patterns.</p>
+                        <p>I’m passionate about open-source contributions, mentoring aspiring developers, and exploring emerging technologies like WebGL and AI-driven interfaces. When I'm not coding, you'll find me sketching UI designs, reading about HCI, or volunteering in tech education initiatives.</p>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">-1</div>
+                                <div class="stat-label">Years in Tech</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">150+</div>
+                                <div class="stat-label">Volunteer Hours</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image-container fade-in">
+                        <div class="about-image" style="background-image: url('a1.png')"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title"><span>Skills</span></h2>
+                <div class="skills-content fade-in">
+                    <div class="skill-item">
+                        <div class="skill-label">Notion</div>
+                        <div class="skill-progress" style="width: 90%"></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">Framer</div>
+                        <div class="skill-progress" style="width: 85%"></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">JavaScript</div>
+                        <div class="skill-progress" style="width: 80%"></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">UI/UX Design</div>
+                        <div class="skill-progress" style="width: 75%"></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">Figma</div>
+                        <div class="skill-progress" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="section">
+            <div class="container">
+                <h2 class="section-title"><span>Selected Work</span></h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item fade-in" data-modal="cosmic-gallery" data-tilt>
+                        <div class="portfolio-item-inner">
+                            <div class="portfolio-image" style="background-image: url('noto.png')"></div>
+                            <div class="portfolio-overlay">
+                                <h3 class="portfolio-title">("Wait" - Electronic Queue System) </h3>
+                                <p class="portfolio-description"> A full-fledged website and Telegram bot have been developed, which allows users to take a ticket or sign up for a consultation in advance. Consultants can manage the queue by calling clients through the system. https://github.com/wait-2301</p>
+                                <button class="portfolio-btn">View Case Study</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item fade-in" data-modal="data-dashboard" data-tilt>
+                        <div class="portfolio-item-inner">
+                            <div class="portfolio-image" style="background-image: url('wait.png')"></div>
+                            <div class="portfolio-overlay">
+                                <h3 class="portfolio-title">("Wait" - Electronic Queue System)</h3>
+                                <p class="portfolio-description">A full-fledged website and Telegram bot have been developed, which allows users to take a ticket or sign up for a consultation in advance. Consultants can manage the queue by calling clients through the system. https://github.com/wait-2301</p>
+                                <button class="portfolio-btn">View Case Study</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item fade-in" data-modal="interactive-game" data-tilt>
+                        <div class="portfolio-item-inner">
+                            <div class="portfolio-image" style="background-image: url('framer.png')"></div>
+                            <div class="portfolio-overlay">
+                                <h3 class="portfolio-title">Framer</h3>
+                                <p class="portfolio-description">To improve skills in the frame builder, a website was created for Qara Studios.</p>
+                                <button class="portfolio-btn">View Case Study</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="volunteering" class="section">
+            <div class="container">
+                <h2 class="section-title"><span>Volunteering</span></h2>
+                <div class="polaroid-grid">
+                    <div class="polaroid-item fade-in" data-modal="code-for-kids" data-tilt style="--index: 0">
+                        <div class="polaroid-inner">
+                            <img src="vol2.png" alt="Code for Kids" class="polaroid-image">
+                            <p class="polaroid-caption">Technovation Girls</p>
+                        </div>
+                    </div>
+                    <div class="polaroid-item fade-in" data-modal="tech-for-all" data-tilt style="--index: 1">
+                        <div class="polaroid-inner">
+                            <img src="vol1.png" alt="Tech for All" class="polaroid-image">
+                            <p class="polaroid-caption">Astana Zhastar</p>
+                        </div>
+                    </div>
+                    <div class="polaroid-item fade-in" data-modal="women-in-tech" data-tilt style="--index: 2">
+                        <div class="polaroid-inner">
+                            <img src="vol3.png" alt="Women in Tech" class="polaroid-image">
+                            <p class="polaroid-caption">Asut Birge</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="section">
+            <div class="container">
+                <h2 class="section-title"><span>My Journey</span></h2>
+                <div class="timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">2023 - Present</div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">AITU College</h3>
+                            <p class="timeline-description">Pursuing a Computer Science Degree with a focus on Human-Computer Interaction, exploring advanced UI/UX design and AI integration.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">2022 - 2023</div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Tech Workshops</h3>
+                            <p class="timeline-description">Led coding workshops for high school students, teaching Scratch to inspire the next generation of developers.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-date">2025</div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Internship</h3>
+                            <p class="timeline-description">First practice in the company 'Engineering Control Center'. Where they give knowledge and understanding in the IT sphere and coding.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="connect" class="section">
+            <div class="container">
+                <h2 class="section-title"><span>Let's Connect</span></h2>
+                <div class="contact-content fade-in">
+                    <p class="contact-intro">If you have some questions, you can ask</p>
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="form-submit-btn">Send Message</button>
+                    </div>
+                    <div class="contact-methods">
+                        <a href="mailto:[email protected]" class="contact-method">
+                            <i class="fas fa-envelope"></i> aminakazanbasova@icloud.com
+                        </a>
+                        <a href="https://linkedin.com/in/tashaseeee" target="_blank" class="contact-method">
+                            <i class="fab fa-linkedin"></i> linkedin.com/in/amina
+                        </a>
+                        <a href="https://github.com/tashaseee" target="_blank" class="contact-method">
+                            <i class="fab fa-github"></i> github.com/amina
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <h2 class="modal-title"></h2>
+                <p class="modal-description"></p>
+                <p class="modal-details"></p>
+            </div>
+        </div>
+    </main>
+
+    <div class="scroll-progress"></div>
+    <script src="script.js"></script>
+</section>
+</body>
+</html>
