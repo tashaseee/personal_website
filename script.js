@@ -28,7 +28,10 @@ const videoUrls = [
     'аринкаугощает.mp4',
     'бритиш.mp4',
     'воло.mp4',
-    'группаши.mp4'
+    'группаши.mp4',
+    'мама.mp4',
+    'костанай.mp4',
+    'коттедж.mp4'
 ];
 
 const panelData = [
@@ -39,7 +42,10 @@ const panelData = [
     { videoUrl: videoUrls[4], size: [6, 3], position: [-12, 3, 6], section: 'volunteering' },
     { videoUrl: videoUrls[5], size: [5, 2.8], position: [11, 4, -10], section: 'journey' },
     { videoUrl: videoUrls[6], size: [5.5, 3], position: [-8, -6, -9], section: 'connect' },
-    { videoUrl: videoUrls[7], size: [5, 2.8], position: [10, 0, 11], section: null }
+    { videoUrl: videoUrls[7], size: [5, 2.8], position: [10, 0, 11], section: null },
+    { videoUrl: videoUrls[8], size: [5, 2.8], position: [-4, 0, 9], section: null },
+    { videoUrl: videoUrls[9], size: [5, 2.8], position: [5, 0, 9], section: null },
+    { videoUrl: videoUrls[10], size: [5, 2.8], position: [0, -6, -3], section: null }
 ];
 
 const modalContent = {
