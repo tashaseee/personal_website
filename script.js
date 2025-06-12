@@ -8,6 +8,7 @@ let windowHalfY = window.innerHeight / 2;
 let isRotating = true;
 let isSectionMode = false;
 let currentSection = null;
+let animationFrameId = null;
 
 const colors = {
     background: 0x000000,
@@ -96,6 +97,12 @@ function init() {
         const container = document.getElementById('container');
         if (!container) throw new Error('Container element not found');
         container.appendChild(renderer.domElement);
+        container.style.position = 'fixed';
+        container.style.top = '0';
+        container.style.left = '0';
+        container.style.width = '100%';
+        container.style.height = '100%';
+        container.style.opacity = '1';
 
         createLighting();
         createVideoPanels();
@@ -104,12 +111,18 @@ function init() {
 
         setTimeout(() => {
             const logo = document.getElementById('logo');
-            if (logo) logo.classList.add('visible');
+            if (logo) {
+                logo.classList.add('visible');
+                gsap.to(logo, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
+            }
             console.log('Logo visible');
         }, 500);
         setTimeout(() => {
             const startBtn = document.getElementById('start-btn');
-            if (startBtn) startBtn.classList.add('visible');
+            if (startBtn) {
+                startBtn.classList.add('visible');
+                gsap.to(startBtn, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.inOut' });
+            }
             console.log('Start button visible');
         }, 1000);
 
@@ -139,11 +152,11 @@ function createLighting() {
         scene.add(directionalLight);
 
         const pointLight1 = new THREE.PointLight(colors.accent, 1.5, 80);
-        pointLight1.position.set(-25, 8, -20);
+        pointLight1.position.set(-25, 8, -15);
         scene.add(pointLight1);
 
         const pointLight2 = new THREE.PointLight(colors.accent, 1.5, 80);
-        pointLight2.position.set(25, -8, 20);
+        pointLight2.position.set(25, -8, 15);
         scene.add(pointLight2);
     } catch (e) {
         console.error('Lighting error:', e);
@@ -163,7 +176,10 @@ function createVideoElement(url) {
         video.src = url;
 
         video.addEventListener('loadeddata', () => {
-            video.play().catch(e => console.log('Video autoplay failed:', e));
+            video.play().catch(e => console.error('Video autoplay failed:', e));
+        });
+        video.addEventListener('error', () => {
+            console.error(`Failed to load video: ${url}`);
         });
 
         return video;
@@ -176,6 +192,9 @@ function createVideoElement(url) {
 function createVideoPanels() {
     try {
         console.log('Creating video panels');
+        videoPanels.forEach(panel => scene.remove(panel.mesh));
+        videoPanels = [];
+
         panelData.forEach((data, index) => {
             const geometry = new THREE.PlaneGeometry(data.size[0], data.size[1]);
             let material;
@@ -204,9 +223,12 @@ function createVideoPanels() {
 
             const panel = new THREE.Mesh(geometry, material);
             panel.position.set(...data.position);
-            panel.rotation.x = Math.random() * 0.2 - 0.1;
-            panel.rotation.y = Math.random() * 0.2 - 0.1;
-            panel.rotation.z = Math.random() * 0.1 - 0.05;
+            const initialRotation = {
+                x: Math.random() * 0.2 - 0.1,
+                y: Math.random() * 0.2 - 0.1,
+                z: Math.random() * 0.1 - 0.05
+            };
+            panel.rotation.set(initialRotation.x, initialRotation.y, initialRotation.z);
             panel.userData = { section: data.section };
 
             const edgesGeometry = new THREE.EdgesGeometry(geometry);
@@ -224,6 +246,7 @@ function createVideoPanels() {
             videoPanels.push({
                 mesh: panel,
                 originalPosition: data.position.slice(),
+                originalRotation: initialRotation,
                 backgroundPosition: [
                     (Math.random() - 0.5) * 80,
                     (Math.random() - 0.5) * 80,
@@ -289,18 +312,26 @@ function createPlaceholderMaterial(color) {
 
 function createCosmicBackground() {
     try {
+        scene.children = scene.children.filter(child => !(child instanceof THREE.Points || (child instanceof THREE.Mesh && child.geometry.type === 'SphereGeometry')));
+
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 5000;
         const posArray = new Float32Array(particlesCount * 3);
         const sizes = new Float32Array(particlesCount);
         const colorsArray = new Float32Array(particlesCount * 3);
 
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-            posArray[i] = (Math.random() - 0.5) * 2000;
-            posArray[i + 1] = (Math.random() - 0.5) * 2000;
-            posArray[i + 2] = (Math.random() - 0.5) * 2000;
+        let seed = 42;
+        const random = () => {
+            seed = (seed * 1664525 + 1013904223) % 4294967296;
+            return seed / 4294967296;
+        };
 
-            sizes[i / 3] = Math.random() * 1.5;
+        for (let i = 0; i < particlesCount * 3; i += 3) {
+            posArray[i] = (random() - 0.5) * 2000;
+            posArray[i + 1] = (random() - 0.5) * 2000;
+            posArray[i + 2] = (random() - 0.5) * 2000;
+
+            sizes[i / 3] = random() * 1.5;
 
             colorsArray[i] = 0.9;
             colorsArray[i + 1] = 0.9;
@@ -374,41 +405,11 @@ function showMainContent() {
     }
 }
 
-function showSpace() {
-    try {
-        console.log('Showing space view');
-        const container = document.querySelector('#container');
-        const header = document.querySelector('#header');
-        const mainContent = document.querySelector('#mainContent');
-
-        if (!container || !header || !mainContent) {
-            throw new Error('Required elements not found');
-        }
-
-        header.classList.remove('visible');
-        mainContent.classList.remove('active');
-        document.querySelector('#back-btn').classList.remove('visible');
-
-        setTimeout(() => {
-            container.style.display = 'block';
-            container.classList.remove('hidden');
-            document.querySelector('#logo').classList.add('visible');
-            document.querySelector('#start-btn').classList.add('visible');
-
-            isRotating = true;
-            isSectionMode = false;
-            currentSection = null;
-            camera.position.set(0, 0, 20);
-
-            videoPanels.forEach(panel => {
-                panel.mesh.position.set(...panel.originalPosition);
-                panel.mesh.material.opacity = 0.95;
-                panel.mesh.scale.set(1, 1, 1);
-            });
-        }, 800);
-    } catch (error) {
-        console.error('Show space error:', error);
-    }
+const backBtn = document.querySelector('#back-btn');
+if (backBtn) {
+    backBtn.addEventListener('click', () => {
+        window.location.reload(); // Просто перезагружаем страницу
+    });
 }
 
 function initScrollAnimations() {
@@ -655,7 +656,6 @@ function setupEventListeners() {
                 const modal = document.querySelector('#modal');
                 const modalTitle = modal.querySelector('.modal-title');
                 const modalDescription = modal.querySelector('.modal-description');
-                const modalDetails = modal.querySelector('.modal-details');
 
                 if (modalContent[modalId]) {
                     modalTitle.textContent = modalContent[modalId].title;
@@ -777,7 +777,7 @@ function setupEventListeners() {
 
 function animate() {
     try {
-        requestAnimationFrame(animate);
+        animationFrameId = requestAnimationFrame(animate);
 
         const time = Date.now() * 0.001;
 
@@ -792,9 +792,9 @@ function animate() {
                 panel.mesh.position.x = panel.originalPosition[0] + Math.sin(time * 0.5 + index) * 0.6;
                 panel.mesh.position.y = panel.originalPosition[1] + Math.cos(time * 0.4 + index) * 0.4;
 
-                panel.mesh.rotation.x += panel.rotationSpeed.x;
-                panel.mesh.rotation.y += panel.rotationSpeed.y;
-                panel.mesh.rotation.z += panel.rotationSpeed.z;
+                panel.mesh.rotation.x = panel.originalRotation.x + Math.sin(time * 0.1) * 0.05;
+                panel.mesh.rotation.y = panel.originalRotation.y + Math.cos(time * 0.1) * 0.05;
+                panel.mesh.rotation.z = panel.originalRotation.z + Math.sin(time * 0.05) * 0.025;
 
                 if (panel.mesh.material.emissive && !panel.mesh.userData.section) {
                     const emissiveIntensity = 0.1 + Math.sin(time * 1.5 + index) * 0.05;
@@ -815,6 +815,7 @@ window.addEventListener('load', () => {
         videoUrls.forEach(url => {
             const video = document.createElement('video');
             video.src = url;
+            video.load();
         });
 
         init();
@@ -822,7 +823,7 @@ window.addEventListener('load', () => {
         console.error('Window load error:', error);
         showMainContent();
     }
-    "use strict";
+});
 
 function initScissorCarousel() {
     try {
@@ -839,17 +840,17 @@ function initScissorCarousel() {
         const textItems = ['Digital Art', 'WebGL Design', 'Immersive Tech', 'Creative Code', 'Future UI'];
 
         const createTextElements = (track, items) => {
-            track.innerHTML = ''; 
+            track.innerHTML = '';
             const screenWidth = window.innerWidth;
             const minSets = Math.ceil(screenWidth / 300) + 2;
 
-            for (let i = 0; i < minSets * 2; i++) { 
+            for (let i = 0; i < minSets * 2; i++) {
                 items.forEach(item => {
                     const span = document.createElement('span');
                     span.className = 'marquee-text';
                     span.textContent = item;
                     track.appendChild(span);
-                    track.appendChild(document.createTextNode(' ')); 
+                    track.appendChild(document.createTextNode(' '));
                 });
             }
         };
@@ -864,12 +865,12 @@ function initScissorCarousel() {
                 '.marquee-track.left',
                 { xPercent: 0 },
                 {
-                    xPercent: -50, 
+                    xPercent: -50,
                     duration: trackWidth / 100,
                     ease: 'none',
                     repeat: -1,
                     modifiers: {
-                        xPercent: gsap.utils.wrap(-50, 0) 
+                        xPercent: gsap.utils.wrap(-50, 0)
                     }
                 }
             );
@@ -879,7 +880,7 @@ function initScissorCarousel() {
                 { xPercent: -50 },
                 {
                     xPercent: 0,
-                    duration: trackWidth / 100, 
+                    duration: trackWidth / 100,
                     ease: 'none',
                     repeat: -1,
                     modifiers: {
@@ -910,5 +911,3 @@ function initScissorCarousel() {
     }
 }
 document.addEventListener('DOMContentLoaded', initScissorCarousel);
-document.addEventListener('DOMContentLoaded', initScissorCarousel);
-});
